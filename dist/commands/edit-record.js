@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { journeyRecords } from "../journey-records.js";
+import { taskLogsRepository } from "../task-logs-repository.js";
 import { logMessage } from "../log-message.js";
 export var editRecord = function (value) { return __awaiter(void 0, void 0, void 0, function () {
     var index, time;
@@ -42,7 +42,7 @@ export var editRecord = function (value) { return __awaiter(void 0, void 0, void
         switch (_a.label) {
             case 0:
                 index = value.index, time = value.time;
-                journeyRecords.update((+index - 1), time);
+                taskLogsRepository.update((+index - 1), time);
                 return [4 /*yield*/, logMessage("Log updated successfully!", 'success')];
             case 1:
                 _a.sent();

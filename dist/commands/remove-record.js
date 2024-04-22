@@ -34,12 +34,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { journeyRecords } from "../journey-records.js";
+import { taskLogsRepository } from "../task-logs-repository.js";
 export var removeRecord = function (value) { return __awaiter(void 0, void 0, void 0, function () {
     var index;
     return __generator(this, function (_a) {
         index = value.index;
-        journeyRecords.remove((+index - 1));
+        taskLogsRepository.remove((+index - 1));
         return [2 /*return*/];
     });
 }); };

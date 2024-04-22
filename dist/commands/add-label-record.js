@@ -34,12 +34,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { journeyRecords } from "../journey-records.js";
+import { taskLogsRepository } from "../task-logs-repository.js";
 export var addLabelRecord = function (value) { return __awaiter(void 0, void 0, void 0, function () {
     var index, label;
     return __generator(this, function (_a) {
         index = value.index, label = value.label;
-        journeyRecords.addLabel((+index - 1), label);
+        taskLogsRepository.addLabel((+index - 1), label);
         return [2 /*return*/];
     });
 }); };
