@@ -1,0 +1,38 @@
+{
+  "folderName": "task-logger",
+  "version": "1.0.12",
+  "name": "@samukaii/task-logger",
+  "description": "",
+  "main": "dist/app.js",
+  "bin": {
+    "tasklogger": "./dist/app.js"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/app.ts",
+    "build": "npx tsc"
+  },
+  "keywords": [
+    "cli",
+    "counter",
+    "time",
+    "journey",
+    "npmtool"
+  ],
+  "author": "Samuel Alejandro dos Santos Veras",
+  "license": "ISC",
+  "repository": "https://github.com/Samukaii/task-logger",
+  "homepage": "https://github.com/Samukaii/task-logger#readme",
+  "devDependencies": {
+    "@types/figlet": "^1.5.8",
+    "@types/node": "^20.12.7",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "figlet": "^1.7.0"
+  }
+}
