@@ -8,9 +8,9 @@ export var getTimeBetweenDateRecords = function (first, second) {
     var newSecond = new Date(second);
     newFirst.setSeconds(0, 0);
     newSecond.setSeconds(0, 0);
-    if (dateHelper.isAfter(newFirst, lunchEnd.date) && dateHelper.isAfter(newSecond, lunchEnd.date))
+    if (dateHelper.isAfterOrEqual(newFirst, lunchEnd.date) && dateHelper.isAfterOrEqual(newSecond, lunchEnd.date))
         return Math.abs(newSecond.getTime() - newFirst.getTime());
-    if (dateHelper.isBefore(newFirst, lunchStart.date) && dateHelper.isBefore(newSecond, lunchStart.date))
+    if (dateHelper.isBeforeOrEqual(newFirst, lunchStart.date) && dateHelper.isBeforeOrEqual(newSecond, lunchStart.date))
         return Math.abs(newSecond.getTime() - newFirst.getTime());
     return Math.abs(Math.abs(newSecond.getTime() - newFirst.getTime()) - getLunchTime());
 };

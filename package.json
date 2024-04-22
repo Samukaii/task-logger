@@ -1,6 +1,6 @@
 {
   "folderName": "task-logger",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "name": "@samukaii/task-logger",
   "description": "Task Logger is a cli to help you to provide log in your tasks",
   "main": "dist/app.js",
