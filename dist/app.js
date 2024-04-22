@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import readline from 'readline';
 import 'colors';
 import { commandHandler } from "./commands/command-handler.js";
