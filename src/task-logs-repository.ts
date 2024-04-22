@@ -1,9 +1,9 @@
-import {JourneyRecord} from "./models/journey-record.js";
+import {TaskLog} from "./models/task-log.js";
 import {formatTime} from "./utils/format-time.js";
 import * as fs from "node:fs";
 import * as os from "node:os";
 
-let allRecords: JourneyRecord[] = [];
+let allRecords: TaskLog[] = [];
 
 const formatCurrentDate = () => {
     const now = new Date();
@@ -31,7 +31,7 @@ const getSaved = () => {
     try {
         const file = fs.readFileSync(`${dir}/${formatCurrentDate()}.json`, 'utf-8');
 
-        return JSON.parse(file) as JourneyRecord[];
+        return JSON.parse(file) as TaskLog[];
     }
     catch (e) {
         return [];
@@ -52,7 +52,7 @@ const addRecord = (label?: string) => {
     if (alreadyRegistered)
         throw new Error(`You have already registered time: ${formatTime(date)}`);
 
-    allRecords.push({date, label});
+    allRecords.push({date, label, id: allRecords.length});
 
     sortAll();
     save();
@@ -109,8 +109,13 @@ allRecords = getSaved().map(record => {
     }
 });
 
-export const journeyRecords = {
-    getAll: () => allRecords,
+export const taskLogsRepository = {
+    getAll: () => allRecords.map((record, index) => ({
+        ...record,
+        id: index + 1
+    })),
+    getRecord: (id: number) => allRecords[id - 1],
+    getLastRecord: () => allRecords.at(-1),
     addRecord,
     remove,
     addLabel,

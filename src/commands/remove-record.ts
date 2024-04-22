@@ -1,8 +1,8 @@
 import {CommandFn} from "./command-handler.js";
-import {journeyRecords} from "../journey-records.js";
+import {taskLogsRepository} from "../task-logs-repository.js";
 
 export const removeRecord: CommandFn = async (value) => {
     const {index} = value;
 
-    journeyRecords.remove((+index - 1));
+    taskLogsRepository.remove((+index - 1));
 }

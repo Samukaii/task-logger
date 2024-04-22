@@ -18,8 +18,8 @@ export const allCommands: Record<string, Command> = {
         regex: /(?<index>.*)/,
         handler: removeRecord,
     },
-    'add-label': {
-        usage: "add-label <id> <label>",
+    label: {
+        usage: "label <id> <label>",
         description: "Adds a label to log",
         regex: /(?<index>\w*) (?<label>.*)/,
         handler: addLabelRecord

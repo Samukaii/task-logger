@@ -1,9 +1,9 @@
 import {CommandFn} from "./command-handler.js";
-import {journeyRecords} from "../journey-records.js";
+import {taskLogsRepository} from "../task-logs-repository.js";
 
 export const addLabelRecord: CommandFn = async (value) => {
     const {index, label} = value;
 
-    journeyRecords.addLabel((+index - 1), label)
+    taskLogsRepository.addLabel((+index - 1), label)
 }
 

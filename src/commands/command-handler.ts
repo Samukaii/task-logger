@@ -1,6 +1,6 @@
-import {renderer} from "../renderer.js";
 import {logMessage} from "../log-message.js";
 import {allCommands} from "../static/all-commands.js";
+import {renderer} from "../core/renderer/renderer.js";
 
 export type CommandFn = ((value: any) => Promise<void>);
 
