@@ -1,0 +1,1 @@
+{"version":3,"file":"format-time.js","sourceRoot":"","sources":["../../src/utils/format-time.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,IAAM,UAAU,GAAG,UAAC,IAAU;IACjC,OAAO,IAAI,CAAC,cAAc,CAAC,IAAI,EAAE;QAC7B,IAAI,EAAE,SAAS;QACf,MAAM,EAAE,SAAS;KACpB,CAAC,CAAC;AACP,CAAC,CAAA"}
