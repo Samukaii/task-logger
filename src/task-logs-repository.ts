@@ -5,10 +5,8 @@ import * as os from "node:os";
 
 let allRecords: TaskLog[] = [];
 
-const formatCurrentDate = () => {
-    const now = new Date();
-
-    return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+const formatDate = (date: Date) => {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
 const save = () => {
@@ -19,23 +17,32 @@ const save = () => {
 
     const content = JSON.stringify(allRecords);
 
-    fs.writeFileSync(`${dir}/${formatCurrentDate()}.json`, content);
+    fs.writeFileSync(`${dir}/${formatDate(new Date())}.json`, content);
 }
 
-const getSaved = () => {
+const getLogsByDate = (date: Date) => {
+    const formatted = formatDate(date);
     const userDir = os.homedir();
     const dir = `${userDir}/task-logger/registers`;
 
     fs.mkdirSync(dir, {recursive: true});
 
-    try {
-        const file = fs.readFileSync(`${dir}/${formatCurrentDate()}.json`, 'utf-8');
+    let logs: TaskLog[] = [];
 
-        return JSON.parse(file) as TaskLog[];
+    try {
+        const file = fs.readFileSync(`${dir}/${formatted}.json`, 'utf-8');
+
+        logs = JSON.parse(file) as TaskLog[];
     }
-    catch (e) {
-        return [];
-    }
+    catch (e) {}
+
+    return logs.map((record, index) => {
+        return {
+            ...record,
+            id: index + 1,
+            date: new Date(record.date)
+        }
+    });
 }
 
 const sortAll = () => {
@@ -102,12 +109,7 @@ const clearAll = () => {
 }
 
 
-allRecords = getSaved().map(record => {
-    return {
-        ...record,
-        date: new Date(record.date)
-    }
-});
+allRecords = getLogsByDate(new Date());
 
 export const taskLogsRepository = {
     getAll: () => allRecords.map((record, index) => ({
@@ -116,6 +118,7 @@ export const taskLogsRepository = {
     })),
     getRecord: (id: number) => allRecords[id - 1],
     getLastRecord: () => allRecords.at(-1),
+    getLogsByDate,
     addRecord,
     remove,
     addLabel,

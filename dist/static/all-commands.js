@@ -3,6 +3,7 @@ import { removeRecord } from "../commands/remove-record.js";
 import { addLabelRecord } from "../commands/add-label-record.js";
 import { editRecord } from "../commands/edit-record.js";
 import { clearAll } from "../commands/clear-all.js";
+import { reportLogs } from "../commands/report-logs.js";
 export var allCommands = {
     add: {
         usage: 'add <label>',
@@ -28,11 +29,17 @@ export var allCommands = {
         regex: /(?<index>\w*) (?<time>.*)/,
         handler: editRecord
     },
+    report: {
+        usage: "report <date>",
+        description: 'Report logs for a specific date. Date accepts "yesterday", "today" or a date with format "yyyy-mm-dd"',
+        regex: /(?<date>.*)/,
+        handler: reportLogs
+    },
     clear: {
         usage: "clear",
         description: "Clear all logs",
         regex: /.*/,
         handler: clearAll
-    }
+    },
 };
 //# sourceMappingURL=all-commands.js.map

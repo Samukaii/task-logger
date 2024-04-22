@@ -4,6 +4,7 @@ import {addLabelRecord} from "../commands/add-label-record.js";
 import {editRecord} from "../commands/edit-record.js";
 import {clearAll} from "../commands/clear-all.js";
 import {Command} from "../models/command.js";
+import {reportLogs} from "../commands/report-logs.js";
 
 export const allCommands: Record<string, Command> = {
     add: {
@@ -30,10 +31,16 @@ export const allCommands: Record<string, Command> = {
         regex: /(?<index>\w*) (?<time>.*)/,
         handler: editRecord
     },
+    report: {
+        usage: "report <date>",
+        description: 'Report logs for a specific date. Date accepts "yesterday", "today" or a date with format "yyyy-mm-dd"',
+        regex: /(?<date>.*)/,
+        handler: reportLogs
+    },
     clear: {
         usage: "clear",
         description: "Clear all logs",
         regex: /.*/,
         handler: clearAll
-    }
+    },
 }

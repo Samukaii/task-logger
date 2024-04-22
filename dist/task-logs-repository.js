@@ -13,28 +13,30 @@ import { formatTime } from "./utils/format-time.js";
 import * as fs from "node:fs";
 import * as os from "node:os";
 var allRecords = [];
-var formatCurrentDate = function () {
-    var now = new Date();
-    return "".concat(now.getFullYear(), "-").concat(now.getMonth() + 1, "-").concat(now.getDate());
+var formatDate = function (date) {
+    return "".concat(date.getFullYear(), "-").concat(date.getMonth() + 1, "-").concat(date.getDate());
 };
 var save = function () {
     var userDir = os.homedir();
     var dir = "".concat(userDir, "/task-logger/registers");
     fs.mkdirSync(dir, { recursive: true });
     var content = JSON.stringify(allRecords);
-    fs.writeFileSync("".concat(dir, "/").concat(formatCurrentDate(), ".json"), content);
+    fs.writeFileSync("".concat(dir, "/").concat(formatDate(new Date()), ".json"), content);
 };
-var getSaved = function () {
+var getLogsByDate = function (date) {
+    var formatted = formatDate(date);
     var userDir = os.homedir();
     var dir = "".concat(userDir, "/task-logger/registers");
     fs.mkdirSync(dir, { recursive: true });
+    var logs = [];
     try {
-        var file = fs.readFileSync("".concat(dir, "/").concat(formatCurrentDate(), ".json"), 'utf-8');
-        return JSON.parse(file);
+        var file = fs.readFileSync("".concat(dir, "/").concat(formatted, ".json"), 'utf-8');
+        logs = JSON.parse(file);
     }
-    catch (e) {
-        return [];
-    }
+    catch (e) { }
+    return logs.map(function (record, index) {
+        return __assign(__assign({}, record), { id: index + 1, date: new Date(record.date) });
+    });
 };
 var sortAll = function () {
     allRecords = allRecords.sort(function (a, b) { return a.date.getTime() - b.date.getTime(); });
@@ -82,13 +84,12 @@ var clearAll = function () {
     allRecords = [];
     save();
 };
-allRecords = getSaved().map(function (record) {
-    return __assign(__assign({}, record), { date: new Date(record.date) });
-});
+allRecords = getLogsByDate(new Date());
 export var taskLogsRepository = {
     getAll: function () { return allRecords.map(function (record, index) { return (__assign(__assign({}, record), { id: index + 1 })); }); },
     getRecord: function (id) { return allRecords[id - 1]; },
     getLastRecord: function () { return allRecords.at(-1); },
+    getLogsByDate: getLogsByDate,
     addRecord: addRecord,
     remove: remove,
     addLabel: addLabel,
