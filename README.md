@@ -1,30 +1,23 @@
-# Translator
-![image](https://github.com/Samukaii/object-translator/assets/54710691/ba09d6f7-bf30-4830-b424-e77226c1980a)
+# Task Logger
+![image](https://github.com/Samukaii/task-logger/assets/54710691/42e4d728-456c-49ae-adea-5644c3af3344)
 
-Translator é uma cli para a geração automática de traduções usando o Bing Translate
+Task Logger é uma cli para ajudar você a fornecer logs do seu trabalho. Assim você consegue saber quanto tempo gastou em uma tarefa
 
 ## Instalação
 
 **Requisitos:** Node 16 ou superior
 
 ```shell
-npm install -g @samukaii/translator
+npm install -g @samukaii/task-logger
 ```
 
 ## Como usar
 Execute o seguinte comando e siga as instruções
 
 ```shell
-translator config
-```
-![image](https://github.com/Samukaii/object-translator/assets/54710691/cdac1451-17f7-485e-acff-22a9c415af0c)
-
-Depois execute:
-
-```shell
-translator path-to/your-translation
+tasklogger
 ```
 
-Você não precisa adicionar "-translate" no final. Ele será inserido automaticamente
+Depois é só executar os comandos descritos 
 
-![image](https://github.com/Samukaii/object-translator/assets/54710691/424058b5-c7e2-4333-aae9-36b3323247b3)
+![image](https://github.com/Samukaii/task-logger/assets/54710691/83e0ab9b-f330-4b3c-95da-03aeb407ef2f)
