@@ -1,6 +1,6 @@
 {
   "folderName": "task-logger",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "name": "@samukaii/task-logger",
   "description": "",
   "main": "dist/app.js",
