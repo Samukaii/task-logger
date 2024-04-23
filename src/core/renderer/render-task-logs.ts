@@ -14,11 +14,12 @@ export const renderTaskLog = (taskLog: TaskLog) => {
     const previousLog = taskLogsRepository.getRecord(taskLog.id - 1);
 
     const id = `${taskLog.id}: `.yellow;
-    const time = `${formatTime(taskLog.date)}`.green;
-    const label = ` => ${taskLog.label}`.yellow;
+    const time = `${formatTime(taskLog.date)}`.green + ' => ';
+    const task = taskLog?.taskId ? `${taskLog.taskId}`.blue + ' - ' : '';
+    const label = `${taskLog.label}`.yellow;
     const difference = previousLog ? ` (+ ${getTimeBetweenTaskLogs(previousLog, taskLog)})`.cyan : '';
 
-    console.log(id + time + label + difference);
+    console.log(id + time + task + label + difference);
 }
 
 export const renderTaskLogs = () => {
@@ -26,6 +27,7 @@ export const renderTaskLogs = () => {
 
     if (!all.length) return;
 
+    console.log('');
     console.log("All logs".blue);
     all.forEach(renderTaskLog);
 }

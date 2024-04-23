@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import { logMessage } from "../log-message.js";
 import { allCommands } from "../static/all-commands.js";
 import { renderer } from "../core/renderer/renderer.js";
-export var commandHandler = function (input) { return __awaiter(void 0, void 0, void 0, function () {
+var execute = function (input, commands) { return __awaiter(void 0, void 0, void 0, function () {
     var splint, commandName, command, args, e_1;
     var _a;
     return __generator(this, function (_b) {
@@ -45,15 +45,16 @@ export var commandHandler = function (input) { return __awaiter(void 0, void 0, 
             case 0:
                 splint = input.split(" ");
                 commandName = splint.shift();
-                command = allCommands[commandName];
-                if (!!command) return [3 /*break*/, 2];
-                return [4 /*yield*/, logMessage("Command \"".concat(commandName, "\" not found"), 'error')];
+                command = commands[commandName];
+                if (!command)
+                    throw new Error("Command \"".concat(commandName, "\" not found"));
+                if (!('commands' in command)) return [3 /*break*/, 2];
+                return [4 /*yield*/, execute(splint.join(' '), command.commands)];
             case 1:
                 _b.sent();
-                renderer.render();
                 return [2 /*return*/];
             case 2:
-                args = ((_a = allCommands[commandName].regex.exec(splint.join(' '))) === null || _a === void 0 ? void 0 : _a.groups) || {};
+                args = ((_a = command.regex.exec(splint.join(' '))) === null || _a === void 0 ? void 0 : _a.groups) || {};
                 _b.label = 3;
             case 3:
                 _b.trys.push([3, 5, , 7]);
@@ -67,7 +68,27 @@ export var commandHandler = function (input) { return __awaiter(void 0, void 0, 
             case 6:
                 _b.sent();
                 return [3 /*break*/, 7];
-            case 7:
+            case 7: return [2 /*return*/];
+        }
+    });
+}); };
+export var commandHandler = function (input) { return __awaiter(void 0, void 0, void 0, function () {
+    var e_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 4]);
+                return [4 /*yield*/, execute(input, allCommands)];
+            case 1:
+                _a.sent();
+                return [3 /*break*/, 4];
+            case 2:
+                e_2 = _a.sent();
+                return [4 /*yield*/, logMessage(e_2.message, 'error')];
+            case 3:
+                _a.sent();
+                return [3 /*break*/, 4];
+            case 4:
                 renderer.render();
                 return [2 /*return*/];
         }

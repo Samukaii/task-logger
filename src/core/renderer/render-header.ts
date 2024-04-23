@@ -12,5 +12,4 @@ export const renderHeader = () => {
     })
     console.log("");
     renderCommands();
-    console.log("");
 }

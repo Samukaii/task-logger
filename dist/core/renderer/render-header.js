@@ -11,6 +11,5 @@ export var renderHeader = function () {
     });
     console.log("");
     renderCommands();
-    console.log("");
 };
 //# sourceMappingURL=render-header.js.map

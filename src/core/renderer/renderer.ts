@@ -1,44 +1,34 @@
 import 'colors'
 import {renderHeader} from "./render-header.js";
 import {renderFooter} from "./render-footer.js";
-import {renderTaskLog, renderTaskLogs} from "./render-task-logs.js";
+import {renderTaskLogs} from "./render-task-logs.js";
 import {ReportLogParams} from "../../models/report-log-params.js";
-import {reportLogs} from "../../commands/report-logs.js";
+import {renderReportLogs} from "./render-report-logs.js";
+import {renderTasks} from "./render-tasks.js";
 
-let reportLogParams: ReportLogParams | null;
-
-const renderReportLogs = (reportLogParams: ReportLogParams) => {
-    const {date, logs} = reportLogParams;
-
-    const formatted = date.toLocaleString('en', {
-        day: "2-digit",
-        year: 'numeric',
-        month: 'long'
-    });
-
-    console.log('');
-    console.log(`Logs for ${formatted}`.blue);
-    if(!logs.length) {
-        console.log('');
-        console.log('No logs found'.yellow)
-    }
-
-    logs.forEach(renderTaskLog);
-    console.log('');
+interface Params {
+    reportLog?: ReportLogParams;
 }
+
+let renderParams: Params = {}
+
+const clearParams = () => renderParams = {};
 
 const render = () => {
     console.clear();
+
     renderHeader();
+    renderTasks();
     renderTaskLogs();
-    if(reportLogParams) renderReportLogs(reportLogParams);
+    if(renderParams.reportLog) renderReportLogs(renderParams.reportLog);
     renderFooter();
-    reportLogParams = null;
+
+    clearParams();
 }
 
 export const renderer = {
     render,
     setReportLogs: (params: ReportLogParams) => {
-        reportLogParams = params;
+        renderParams.reportLog = params;
     }
 }

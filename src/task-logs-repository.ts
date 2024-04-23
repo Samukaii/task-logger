@@ -1,7 +1,6 @@
 import {TaskLog} from "./models/task-log.js";
 import {formatTime} from "./utils/format-time.js";
-import * as fs from "node:fs";
-import * as os from "node:os";
+import {persistence} from "./core/save-file.js";
 
 let allRecords: TaskLog[] = [];
 
@@ -10,31 +9,15 @@ const formatDate = (date: Date) => {
 }
 
 const save = () => {
-    const userDir = os.homedir();
-    const dir = `${userDir}/task-logger/registers`;
-
-    fs.mkdirSync(dir, {recursive: true});
-
     const content = JSON.stringify(allRecords);
 
-    fs.writeFileSync(`${dir}/${formatDate(new Date())}.json`, content);
+    persistence.save(`registers/${formatDate(new Date())}`, content);
 }
 
 const getLogsByDate = (date: Date) => {
     const formatted = formatDate(date);
-    const userDir = os.homedir();
-    const dir = `${userDir}/task-logger/registers`;
 
-    fs.mkdirSync(dir, {recursive: true});
-
-    let logs: TaskLog[] = [];
-
-    try {
-        const file = fs.readFileSync(`${dir}/${formatted}.json`, 'utf-8');
-
-        logs = JSON.parse(file) as TaskLog[];
-    }
-    catch (e) {}
+    const logs: TaskLog[] = persistence.read<TaskLog[]>(`registers/${formatted}`) ?? [];
 
     return logs.map((record, index) => {
         return {
@@ -49,7 +32,7 @@ const sortAll = () => {
     allRecords = allRecords.sort((a, b) => a.date.getTime() - b.date.getTime())
 }
 
-const addRecord = (label?: string) => {
+const addRecord = (label: string, taskId?: string) => {
     const date = new Date();
 
     const alreadyRegistered = allRecords.some(record => {
@@ -59,7 +42,7 @@ const addRecord = (label?: string) => {
     if (alreadyRegistered)
         throw new Error(`You have already registered time: ${formatTime(date)}`);
 
-    allRecords.push({date, label, id: allRecords.length});
+    allRecords.push({date, label, id: allRecords.length, taskId});
 
     sortAll();
     save();

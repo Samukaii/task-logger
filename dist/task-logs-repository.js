@@ -10,30 +10,19 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { formatTime } from "./utils/format-time.js";
-import * as fs from "node:fs";
-import * as os from "node:os";
+import { persistence } from "./core/save-file.js";
 var allRecords = [];
 var formatDate = function (date) {
     return "".concat(date.getFullYear(), "-").concat(date.getMonth() + 1, "-").concat(date.getDate());
 };
 var save = function () {
-    var userDir = os.homedir();
-    var dir = "".concat(userDir, "/task-logger/registers");
-    fs.mkdirSync(dir, { recursive: true });
     var content = JSON.stringify(allRecords);
-    fs.writeFileSync("".concat(dir, "/").concat(formatDate(new Date()), ".json"), content);
+    persistence.save("registers/".concat(formatDate(new Date())), content);
 };
 var getLogsByDate = function (date) {
+    var _a;
     var formatted = formatDate(date);
-    var userDir = os.homedir();
-    var dir = "".concat(userDir, "/task-logger/registers");
-    fs.mkdirSync(dir, { recursive: true });
-    var logs = [];
-    try {
-        var file = fs.readFileSync("".concat(dir, "/").concat(formatted, ".json"), 'utf-8');
-        logs = JSON.parse(file);
-    }
-    catch (e) { }
+    var logs = (_a = persistence.read("registers/".concat(formatted))) !== null && _a !== void 0 ? _a : [];
     return logs.map(function (record, index) {
         return __assign(__assign({}, record), { id: index + 1, date: new Date(record.date) });
     });
@@ -41,14 +30,14 @@ var getLogsByDate = function (date) {
 var sortAll = function () {
     allRecords = allRecords.sort(function (a, b) { return a.date.getTime() - b.date.getTime(); });
 };
-var addRecord = function (label) {
+var addRecord = function (label, taskId) {
     var date = new Date();
     var alreadyRegistered = allRecords.some(function (record) {
         return formatTime(record.date) === formatTime(date);
     });
     if (alreadyRegistered)
         throw new Error("You have already registered time: ".concat(formatTime(date)));
-    allRecords.push({ date: date, label: label, id: allRecords.length });
+    allRecords.push({ date: date, label: label, id: allRecords.length, taskId: taskId });
     sortAll();
     save();
 };

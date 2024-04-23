@@ -36,12 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { taskLogsRepository } from "../task-logs-repository.js";
 export var addRecord = function (value) { return __awaiter(void 0, void 0, void 0, function () {
-    var label;
+    var label, taskId;
     return __generator(this, function (_a) {
-        label = value.label;
+        label = value.label, taskId = value.taskId;
         if (!label)
             throw new Error("You need to provide a label");
-        taskLogsRepository.addRecord(label);
+        taskLogsRepository.addRecord(label, taskId);
         return [2 /*return*/];
     });
 }); };

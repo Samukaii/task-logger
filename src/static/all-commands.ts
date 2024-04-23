@@ -3,14 +3,16 @@ import {removeRecord} from "../commands/remove-record.js";
 import {addLabelRecord} from "../commands/add-label-record.js";
 import {editRecord} from "../commands/edit-record.js";
 import {clearAll} from "../commands/clear-all.js";
-import {Command} from "../models/command.js";
+import {Command, CommandGroup} from "../models/command.js";
 import {reportLogs} from "../commands/report-logs.js";
+import {tasksRepository} from "../tasks-repository.js";
+import {logMessage} from "../log-message.js";
 
-export const allCommands: Record<string, Command> = {
+export const allCommands: Record<string, Command | CommandGroup> = {
     add: {
-        usage: 'add <label>',
+        usage: 'add <taskId> <label>',
         description: 'Registers a log at current time',
-        regex: /(?<label>.*)/,
+        regex: /(?<taskId>\d*) (?<label>.*)/,
         handler: addRecord
     },
     remove: {
@@ -43,4 +45,27 @@ export const allCommands: Record<string, Command> = {
         regex: /.*/,
         handler: clearAll
     },
+    task: {
+        commands: {
+            add: {
+                usage: "task add <id> <name>",
+                description: 'Create a task',
+                regex: /(?<id>\d*) (?<name>.*)/,
+                handler: async (params) => {
+                    tasksRepository.add(params.id, params.name);
+                    await logMessage('Task successfully created!', 'success');
+                }
+            },
+            remove: {
+                usage: "task remove <id>",
+                description: 'Remove a task',
+                regex: /(?<id>.*)/,
+                handler: async (params) => {
+                    tasksRepository.remove(params.id);
+                    await logMessage('Task successfully deleted!', 'success');
+                }
+            },
+        }
+
+    }
 }
