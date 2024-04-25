@@ -9,7 +9,7 @@ const formatDate = (date: Date) => {
 }
 
 const save = () => {
-    const content = JSON.stringify(allRecords);
+    const content = JSON.stringify(allRecords, null, 2);
 
     persistence.save(`registers/${formatDate(new Date())}`, content);
 }
